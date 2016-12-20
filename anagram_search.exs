@@ -4,7 +4,7 @@ defmodule AnagramSearch do
     search_word_length = String.length(search_word)
 
     Enum.filter source, fn(line) ->
-      word = String.replace(line, "\n", "")
+      word = String.trim(line)
 
       String.length(word) == search_word_length &&
         Enum.all? search_word_chars, fn(char) ->
@@ -53,5 +53,5 @@ IO.puts "Decremental: #{Float.to_string(time, decimals: 6)}"
 
 """
 ### Short word(team) ###
-Decremental: 0.871180
+Decremental: 0.762975
 """
