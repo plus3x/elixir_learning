@@ -16,6 +16,12 @@ defmodule AnagramSearch do
         end
     end
   end
+
+  def sort(source: source, search_word: search_word) do
+    search_word_chars_sorted = Enum.sort(to_charlist(search_word) ++ '\n')
+
+    Enum.filter source, &(search_word_chars_sorted == Enum.sort(to_charlist(&1)))
+  end
 end
 
 defmodule AnagramSearchTest do
@@ -51,7 +57,15 @@ time = Benchmark.realtime fn ->
 end
 IO.puts "Decremental: #{Float.to_string(time, decimals: 6)}"
 
+time = Benchmark.realtime fn ->
+  for _ <- 1..iterations do
+    AnagramSearchTest.process!(source: source, search_word: word, expected_result: expected_result, method: :sort)
+  end
+end
+IO.puts "Sort: #{Float.to_string(time, decimals: 6)}"
+
 """
 ### Short word(team) ###
-Decremental: 0.762975
+Decremental: 0.725626
+Sort: 1.100520
 """
